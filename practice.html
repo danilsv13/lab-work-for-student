@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        /* Стили для upов и разъёма */
+        .wire {
+            position: absolute;
+            background-color: #FFA500;
+            height: 3px;
+            transform-origin: left center;
+            z-index: 19;
+            box-shadow: 0 0 3px rgba(255,165,0,0.7);
+            pointer-events: none;
+        }
+        
+        .wire-active {
+            animation: wirePulse 0.5s infinite alternate;
+        }
+        
+        @keyframes wirePulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .multimeter-port {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            border: 2px solid #555;
+            left: 15px;
+            bottom: 15px;
+            z-index: 21;
+        }
+        
+        /* 1 часть - верхняя (небо) */
+        .top-section {
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F7FA 100%);
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 -10px 30px rgba(135, 206, 235, 0.5);
+        }
+        
+        /* Облака */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
+        }
+        
+        .cloud-large {
+            width: 120px;
+            height: 60px;
+            animation: cloudMove 40s linear infinite;
+        }
+        
+        .cloud-large::before, .cloud-large::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .cloud-large::before {
+            width: 50px;
+            height: 50px;
+            top: -20px;
+            left: 20px;
+        }
+        
+        .cloud-large::after {
+            width: 30px;
+            height: 30px;
+            top: -10px;
+            right: 20px;
+        }
+        
+        .cloud-medium {
+            width: 80px;
+            height: 40px;
+            animation: cloudMove 30s linear infinite 5s;
+        }
+        
+        .cloud-small {
+            width: 50px;
+            height: 25px;
+            animation: cloudMove 25s linear infinite 10s;
+        }
+        
+        /* Солнце */
+        .sun {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: 20px;
+            right: 30px;
+            box-shadow: 0 0 40px #FFD700, 0 0 80px #FFA500;
+        }
+        
+        /* Анимации облаков и гор */
+        @keyframes cloudMove {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(calc(100vw + 150px)); }
+        }
+        
+        @keyframes mountainsMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+        
+        /* 2 часть - центральная (поле) */
+        .middle-section {
+            background: linear-gradient(to bottom, #dcedc8, #c5e1a5);
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Горы */
+        .mountains {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60"><path d="M0,60 L15,30 Q25,40 35,20 Q45,30 55,10 Q65,20 75,5 Q85,15 95,30 L100,60 Z" fill="%236b8c7d" opacity="0.6"/></svg>');
+            background-repeat: repeat-x;
+            background-position: top;
+            background-size: 200px 60px;
+            animation: mountainsMove 120s linear infinite;
+        }
+        
+        /* Рельсовая система */
+        .railway-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 25px;
+            z-index: 10;
+        }
+
+        .railway-track {
+            position: absolute;
+            width: 100%;
+            height: 15px;
+            background: #424242;
+            bottom: 0;
+        }
+
+        .rail {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #aaa, #ddd, #aaa);
+            bottom: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .rail:nth-child(2) {
+            bottom: 5px;
+        }
+
+        .tie {
+            position: absolute;
+            width: 100px;
+            height: 8px;
+            background: #3E2723;
+            bottom: 3px;
+            border-radius: 2px;
+        }
+
+        /* Поезд */
+        .high-speed-train {
+            position: absolute;
+            width: 300px;
+            height: 65px;
+            bottom: 5px;
+            left: 100%;
+            z-index: 15;
+            animation: trainMove 45s linear infinite;
+        }
+
+        @keyframes trainMove {
+            0% {
+                transform: translateX(0);
+                left: 100%;
+            }
+            100% {
+                transform: translateX(-100%);
+                left: 0;
+            }
+        }
+
+        .train-nose {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50px 0 0 5px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Добавим лобовое стекло для носа */
+        .train-nose::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 10px;
+            background: #BBDEFB;
+            top: 15px;
+            right: 17px;
+            border: 1px solid #90CAF9;
+            border-radius: 50px 0 0 5px;
+        }
+
+        .train-body {
+            position: absolute;
+            width: 140px;
+            height: 50px;
+            background: white;
+            left: 45px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Добавим второй вагон */
+        .train-body-2 {
+            position: absolute;
+            width: 140px;
+            height: 50px;
+            background: white;
+            left: 185px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .train-roof {
+            position: absolute;
+            width: 100%;
+            height: 12px;
+            background: #f5f5f5;
+            top: 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .train-windows {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            top: 15px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .window {
+            width: 25px;
+            height: 100%;
+            background: #BBDEFB;
+            border: 1px solid #90CAF9;
+            border-radius: 2px;
+        }
+
+        .train-cabin {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: white;
+            left: 325px;
+            border: 1px solid #ddd;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            border-radius: 0 5px 5px 0;
+        }
+
+        .cabin-window {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #BBDEFB;
+            top: 15px;
+            left: 5px;
+            border: 1px solid #90CAF9;
+            border-radius: 2px;
+        }
+
+        .wheel {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #333;
+            border-radius: 50%;
+            bottom: -8px;
+            border: 2px solid #666;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            animation: wheelRotate 1s linear infinite;
+        }
+
+        @keyframes wheelRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .wheel::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #999;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .red-block {
+            position: absolute;
+            width: 45px;
+            left: -500%;
+            height:40%;
+            top:-45% ;
+            background: #ff0000;
+            border: 1px solid #981515;
+            border-radius: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 5px;
+        }
+
+        .measure-btn {
+            padding: 3px 6px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+        
+        .measure-btn:hover {
+            background-color: #64d769;
+        }
+        
+        .active-block {
+            box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.7);
+        }
+        
+        /* Красные столбы */
+        .measurement-pole-2 {
+            position: absolute;
+            width: 4px;
+            height: 50%; /* 120px (грунт) + 60px (половина поля) */
+            background: hwb(0 0% 0%);
+            border: 1px solid #981515;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* 3 часть - нижняя (грунт) */
+        .bottom-section {
+            background: #5D4037;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px solid #3E2723;
+            background-image: 
+                linear-gradient(45deg, #4E342E 25%, transparent 25%, transparent 75%, #4E342E 75%, #4E342E),
+                linear-gradient(45deg, #4E342E 25%, transparent 25%, transparent 75%, #4E342E 75%, #4E342E);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Кабель связи в грунте */
+        .cable {
+            position: absolute;
+            width: 100%;
+            height: 10px;
+            background: #333;
+            left: 0%;
+            top: 50%;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        
+        /* Точки на кабеле */
+        .cable-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: -1px;
+            transform: translateX(-50%);
+            box-shadow: 0 0 5px #FFD700;
+            z-index: 4;
+        }
+
+        /* Красные столбы */
+        .measurement-pole {
+            position: absolute;
+            width: 4px;
+            height: 120px; /* 120px (грунт) + 60px (половина поля) */
+            background: red;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* Анимация "мерцания" столбов */
+        .measurement-pole {
+            animation: poleGlow 3s infinite ease-in-out;
+        }
+
+        @keyframes poleGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.9; }
+        }
+        
+        /* Стили для мультиметра */
+        .multimeter-banner {
+            position: relative;
+            width: 160px;
+            height: 250px;
+            top: 10px;
+            right: 10px;
+            background: #a0a0a0;
+            border-radius: 12px;
+            border: 3px solid #707070;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .multimeter-banner h3 {
+            color: #f8f8f8;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .multimeter-display {
+            width: 130px;
+            height: 80px;
+            background: white;
+            border: 3px solid #555;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 28px;
+            font-weight: bold;
+            color: #222;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .multimeter-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.1));
+            pointer-events: none;
+            border-radius: 3px 3px 0 0;
+        }
+        
+        #randomNumbers {
+            padding: 0 10px;
+        }
+        
+        #randomBtn {
+            padding: 8px 25px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        #randomBtn:hover {
+            background-color: #1976D2;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        #randomBtn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* Остальные стили */
+        .small-banner {
+            box-sizing: border-box;
+            position: absolute;
+            z-index: 20;
+        }
+        
+        .scheme-1, .scheme-2, .scheme-3 {
+            width: 150px;
+            height: 260px; /* Увеличиваем высоту для новой кнопки */
+            top: 10px;
+            background-color: #ebebeb;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scheme-1 {
+            left: 10px;
+        }
+        
+        .scheme-2 {
+            left: 170px;
+        }
+        
+        .scheme-3 {
+            left: 330px;
+        }
+        
+        /* Стили для проводов подключения */
+        .connection-wire {
+            position: absolute;
+            background-color: #2196F3;
+            height: 3px;
+            transform-origin: left center;
+            z-index: 18;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.7);
+            pointer-events: none;
+        }
+        
+        /* Стили для кнопки подключения */
+        .connect-btn {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 120px;
+        }
+        
+        .connect-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .connect-btn.connected {
+            background-color: #f44336;
+        }
+        
+        .connect-btn.connected:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Новые стили для кнопок переключения */
+        .toggleBtn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100px;
+        }
+        
+        .toggleBtn.on {
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        }
+        
+        .toggleBtn.off {
+            background-color: #f44336;
+            color: white;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.4);
+        }
+        
+        /* Стили для кнопки "Показать схему" */
+        .show-scheme-btn {
+            padding: 8px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            width: 100px;
+        }
+        
+        .show-scheme-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        h3 {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        /* Добавляем новые стили для контактной сети */
+        .contact-wire {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #000;
+            top: 120px; /* Позиция над поездом */
+            z-index: 20;
+        }
+
+        .contact-support {
+            position: absolute;
+            width: 5px;
+            height: 70px;
+            background-color: #333;
+            top: 120px;
+            z-index: 5;
+        }
+
+        /* Токоприёмник поезда */
+        .pantograph {
+            position: absolute;
+            width: 5px;
+            height: 12px;
+            background: linear-gradient(to right, #6b6b6b, #ddd, #aaa);
+            left: 100px;
+            top: -12px;
+            z-index: 16;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .pantograph::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 5px;
+            background: #474747;
+            left:-2px;
+            border-radius: 2px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- 1 часть - верхняя (небо) -->
+    <div class="top-section">
+        <div class="sun"></div>
+              
+        <div class="small-banner multimeter-banner">
+            <h3>Мультиметр, В</h3>
+            <div class="multimeter-display">
+                <div id="randomNumbers">--.-</div>
+            </div>
+            <button id="randomBtn">Измерить</button>
+            <!-- Добавляем разъём для провода -->
+            <div class="multimeter-port"></div>
+        </div>
+        
+        <div class="small-banner scheme-1">
+            <h2>КСК-500</h2>
+            <button class="toggleBtn off">Выключено</button>
+            <button class="show-scheme-btn">Показать схему</button>
+            <button class="connect-btn">Подключить КИП</button>
+        </div>
+        
+        <div class="small-banner scheme-2">
+            <h2>КСК-400</h2>
+            <button class="toggleBtn off">Выключено</button>
+            <button class="show-scheme-btn">Показать схему</button>
+            <button class="connect-btn">Подключить КИП</button>
+        </div>
+        
+        <div class="small-banner scheme-3">
+            <h2>ПГД-200</h2>
+            <button class="toggleBtn off">Выключено</button>
+            <button class="show-scheme-btn">Показать схему</button>
+            <button class="connect-btn">Подключить КИП</button>
+        </div>
+    </div>
+    
+    <!-- 2 часть - центральная (поле) -->
+    <div class="middle-section">
+        <!-- Контактная сеть -->
+        <div class="contact-wire"></div>
+        
+        <!-- Опоры контактной сети (5 штук) -->
+        <div class="contact-support" style="left: 20%;"></div>
+        <div class="contact-support" style="left: 40%;"></div>
+        <div class="contact-support" style="left: 60%;"></div>
+        <div class="contact-support" style="left: 80%;"></div>
+        <div class="contact-support" style="left: 100%;"></div>
+        <div class="mountains"></div>
+        <!-- кипы с кнопками -->
+    
+        <div class="measurement-pole-2" style="left: 9%;">
+            <div class="red-block" data-range="-22--21">
+                <button class="measure-btn">КИП <br> 1</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 18%;">
+            <div class="red-block" data-range="20-30">
+                <button class="measure-btn">КИП <br> 2</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 27%;">
+            <div class="red-block" data-range="30-40">
+                <button class="measure-btn">КИП <br> 3</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 36%;">
+            <div class="red-block" data-range="40-50">
+                <button class="measure-btn">КИП <br> 4</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 45%;">
+            <div class="red-block" data-range="50-60">
+                <button class="measure-btn">КИП <br> 5</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 54%;">
+            <div class="red-block" data-range="-22--21">
+                <button class="measure-btn">КИП <br> 6</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 63%;">
+            <div class="red-block" data-range="20-30">
+                <button class="measure-btn">КИП <br> 7</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 72%;">
+            <div class="red-block" data-range="30-40">
+                <button class="measure-btn">КИП <br> 8</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 81%;">
+            <div class="red-block" data-range="40-50">
+                <button class="measure-btn">КИП <br> 9</button>
+            </div>
+        </div>
+        <div class="measurement-pole-2" style="left: 90%;">
+            <div class="red-block" data-range="50-60">
+                <button class="measure-btn">КИП <br> 10</button>
+            </div>
+        </div>
+        
+        
+        <!-- Рельсовая система и поезд -->
+        <div class="railway-container">
+            <div class="railway-track">
+                <div class="rail"></div>
+                <div class="rail"></div>
+                
+                <!-- Шпалы -->
+                <div class="tie" style="left: 30px;"></div>
+                <div class="tie" style="left: 250px;"></div>
+                <div class="tie" style="left: 500px;"></div>
+                <div class="tie" style="left: 750px;"></div>
+                <div class="tie" style="left: 900px;"></div>
+                <div class="tie" style="left: 1050px;"></div>
+                <div class="tie" style="left: 1200px;"></div>
+                <div class="tie" style="left: 1350px;"></div>
+                <div class="tie" style="left: 1500px;"></div>
+                <div class="tie" style="left: 1650px;"></div>
+                <div class="tie" style="left: 1800px;"></div>
+
+                <!-- Поезд -->
+                <div class="high-speed-train">
+                    <div class="pantograph"></div>
+                    <div class="train-nose"></div>
+                    <div class="train-body">
+                        <div class="train-roof"></div>
+                        <div class="train-windows">
+                            <div class="window"></div>
+                            <div class="window"></div>
+                            <div class="window"></div>
+                        </div>
+                    </div>
+                    <!-- Добавляем второй вагон -->
+                    <div class="train-body-2">
+                        <div class="pantograph"></div>
+                        <div class="train-roof"></div>
+                        <div class="train-windows">
+                            <div class="window"></div>
+                            <div class="window"></div>
+                            <div class="window"></div>
+                        </div>
+                    </div>
+                    <div class="train-cabin">
+                        <div class="cabin-window"></div>
+                    </div>
+                    <!-- Колеса -->
+                    <div class="wheel" style="left: 20px;"></div>
+                    <div class="wheel" style="left: 65px;"></div>
+                    <div class="wheel" style="left: 110px;"></div>
+                    <div class="wheel" style="left: 155px;"></div>
+                    <div class="wheel" style="left: 200px;"></div>
+                    <div class="wheel" style="left: 245px;"></div>
+                    <div class="wheel" style="left: 290px;"></div>
+                    <div class="wheel" style="left: 335px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 3 часть - нижняя (грунт) -->
+    <div class="bottom-section" id="soilSection">
+        <!-- Кабель связи -->
+        <div class="cable">
+            <!-- Точка 1 -->
+            <div class="cable-point" style="left: 9%;"></div>
+            <div class="measurement-pole" style="left: 9%;"></div>
+            <!-- Точка 2 -->
+            <div class="cable-point" style="left: 18%;"></div>
+            <div class="measurement-pole" style="left: 18%;"></div>
+            <!-- Точка 3 -->
+            <div class="cable-point" style="left: 27%;"></div>
+            <div class="measurement-pole" style="left: 27%;"></div>
+            <!-- Точка 4 -->
+            <div class="cable-point" style="left: 36%;"></div>
+            <div class="measurement-pole" style="left: 36%;"></div>
+            <!-- Точка 5 -->
+            <div class="cable-point" style="left: 45%;"></div>
+            <div class="measurement-pole" style="left: 45%;"></div>
+            <!-- Точка 6 -->
+            <div class="cable-point" style="left: 54%;"></div>
+            <div class="measurement-pole" style="left: 54%;"></div>
+            <!-- Точка 7 -->
+            <div class="cable-point" style="left: 63%;"></div>
+            <div class="measurement-pole" style="left: 63%;"></div>
+            <!-- Точка 8 -->
+            <div class="cable-point" style="left: 72%;"></div>
+            <div class="measurement-pole" style="left: 72%;"></div>
+            <!-- Точка 9 -->
+            <div class="cable-point" style="left: 81%;"></div>
+            <div class="measurement-pole" style="left: 81%;"></div>
+            <!-- Точка 10 -->
+            <div class="cable-point" style="left: 90%;"></div>
+            <div class="measurement-pole" style="left: 90%;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Генерация облаков (без изменений)
+        function generateClouds() {
+            const topSection = document.querySelector('.top-section');
+            const cloudTypes = ['large', 'medium', 'small'];
+            
+            for (let i = 0; i < 5; i++) {
+                const cloud = document.createElement('div');
+                const type = cloudTypes[Math.floor(Math.random() * cloudTypes.length)];
+                cloud.className = `cloud cloud-${type}`;
+                
+                cloud.style.top = `${20 + Math.random() * 60}px`;
+                cloud.style.left = `${Math.random() * 100 - 150}px`;
+                cloud.style.opacity = `${0.7 + Math.random() * 0.3}`;
+                cloud.style.animationDelay = `${Math.random() * 20}s`;
+                cloud.style.animationDuration = `${20 + Math.random() * 30}s`;
+                
+                topSection.appendChild(cloud);
+            }
+        }
+        
+        // Создаем провод между КИП и разъёмом мультиметра (без изменений)
+        function createWire(fromElement, toPortElement) {
+            const wire = document.createElement('div');
+            wire.className = 'wire';
+            document.body.appendChild(wire);
+            
+            function updateWire() {
+                const fromRect = fromElement.getBoundingClientRect();
+    		const toRect = toPortElement.getBoundingClientRect();
+
+		// Учитываем скролл
+    		const scrollY = window.scrollY || window.pageYOffset;
+                
+                const x1 = fromRect.left + fromRect.width / 2;
+    		const y1 = fromRect.top + scrollY + fromRect.height / 2;
+    		const x2 = toRect.left + toRect.width / 2;
+    		const y2 = toRect.top + scrollY + toRect.height / 2;
+                
+                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    		const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+
+                wire.style.width = `${length}px`;
+    		wire.style.left = `${x1}px`;
+    		wire.style.top = `${y1}px`;
+    		wire.style.transform = `rotate(${angle}deg)`;
+            }
+            
+            updateWire();
+            window.addEventListener('resize', updateWire);
+            
+            return wire;
+        }
+        
+        // Инициализация при загрузке
+        window.addEventListener('load', function() {
+            generateClouds();
+            
+            let selectedBlock = null;
+            let currentWire = null;
+            let activeScheme = null;
+            const measureButtons = document.querySelectorAll('.measure-btn');
+            const redBlocks = document.querySelectorAll('.red-block');
+            const multimeterPort = document.querySelector('.multimeter-port');
+            const toggleButtons = document.querySelectorAll('.toggleBtn');
+            
+            // Диапазоны для КИПов, когда ни одна схема не включена
+            const defaultRanges = [
+                { min: -22.0, max: -22.9 },  // КИП 1
+                { min: -36.0, max: -36.9 },  // КИП 2
+                { min: -37.0, max: -37.9 },  // КИП 3
+                { min: -22.0, max: -22.9 },  // КИП 4
+                { min: 0, max: 0.9 },    // КИП 5
+                { min: 0, max: 0.9 },    // КИП 6
+                { min: 37.0, max: 37.9 },  // КИП 7
+                { min: 85.0, max: 85.9 },  // КИП 8 (правильный)
+                { min: 37.0, max: 37.9 },  // КИП 9
+                { min: 0, max: 0 }     // КИП 10
+            ];
+            
+            // Базовые значения для КИПов при подключении к правильному КИПу (КИП 8)
+            const schemeValues = {
+                'КСК-500': [-6.2, -11.1, -11.2, -6.3, 0, 0, 13.4, 16.2, 13.7, 0],
+                'КСК-400': [-9.1, -17.2, -17.5, -11.6, 0, 0, 18.2, 21.1, 18.4, 0],
+                'ПГД-200': [-11.2, -20.4, -20.2, -11.1, 0, 0, 22.2, 25.4, 22.1, 0]
+            };
+
+            // Величины коррекции для неправильных КИПов в зависимости от схемы
+            const schemeCorrections = {
+                'КСК-500': 17,
+                'КСК-400': 13,
+                'ПГД-200': 10
+            };    
+
+            // Обработка выбора точки измерения 
+            measureButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    if (currentWire) {
+                        currentWire.remove();
+                        currentWire = null;
+                    }
+                    
+                    redBlocks.forEach(block => {
+                        block.classList.remove('active-block');
+                    });
+                    
+                    selectedBlock = index;
+                    redBlocks[index].classList.add('active-block');
+                    document.getElementById('randomNumbers').textContent = "--.-";
+                    
+                    currentWire = createWire(redBlocks[index], multimeterPort);
+                    currentWire.classList.add('wire-active');
+                });
+            });
+            
+            // Обработка измерения - ОСНОВНЫЕ ИЗМЕНЕНИЯ ЗДЕСЬ
+            document.getElementById('randomBtn').addEventListener('click', function() {
+                const randomNumbersElement = document.getElementById('randomNumbers');
+                
+                if (selectedBlock === null) {
+                    randomNumbersElement.textContent = "Err";
+                    setTimeout(() => {
+                        randomNumbersElement.textContent = "--.-";
+                    }, 1000);
+                    return;
+                }
+                
+                // Анимация измерения
+                randomNumbersElement.textContent = "...";
+    
+                setTimeout(() => {
+                    let displayValue;
+                    
+                    // Если есть активная схема и подключение к КИПу
+                    if (activeScheme && connectedKIP !== null) {
+                        const schemeTitle = activeScheme;
+            
+                        // Если подключен правильный КИП (КИП 8) - берем базовые значения
+                        if (connectedKIP === 8) {
+                            displayValue = schemeValues[schemeTitle][selectedBlock];
+                        } 
+                        // Если подключен неправильный КИП и измеряем именно его
+                        else if (selectedBlock === connectedKIP - 1) {
+                            // Получаем базовое значение для этого КИПа
+                            const baseValue = schemeValues[schemeTitle][selectedBlock];
+                            const correction = schemeCorrections[schemeTitle];
+                            
+                            // Применяем новую логику коррекции:
+                            if (baseValue > 1) {
+                                // Для положительных значений - уменьшаем
+                                displayValue = baseValue;
+                            } else if (baseValue < 0) {
+                                // Для отрицательных значений - увеличиваем
+                                displayValue = baseValue;
+                            } else {
+                                // Для значений от 0 до 1 - не изменяем
+                                displayValue = baseValue;
+                            }
+                        } 
+                        // Если подключен неправильный КИП, но измеряем не его
+                        else {
+                            // Берем значение из defaultRanges без изменений
+                            const range = defaultRanges[selectedBlock];
+                            displayValue = (Math.random() * (range.max - range.min) + range.min).toFixed(1);
+                        }
+                    } 
+                    // Если нет активной схемы или подключения, генерируем случайное значение в заданном диапазоне
+                    else {
+                        const range = defaultRanges[selectedBlock];
+                        displayValue = (Math.random() * (range.max - range.min) + range.min).toFixed(1);
+                    }
+        
+                    // Форматируем отображение значения
+                    if (typeof displayValue === 'number') {
+                        randomNumbersElement.textContent = displayValue >= 0 ? `${displayValue}` : `${displayValue}`;
+                    } else {
+                        randomNumbersElement.textContent = displayValue;
+                    }
+        
+                    // Анимация провода при измерении
+                    if (currentWire) {
+                        currentWire.style.boxShadow = '0 0 8px rgba(255,165,0,0.9)';
+                        setTimeout(() => {
+                            currentWire.style.boxShadow = '0 0 3px rgba(255,165,0,0.7)';
+                        }, 300);
+                    }
+                }, 800);
+            });
+            
+            // Обработка кнопок переключения схем (без изменений)
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const schemeTitle = this.parentElement.querySelector('h2').textContent;
+                    
+                    // Если кнопка уже включена - выключаем её
+                    if (this.classList.contains('on')) {
+                        this.classList.remove('on');
+                        this.classList.add('off');
+                        this.textContent = 'Выключено';
+                        activeScheme = null;
+                        
+                        // Разблокируем все кнопки
+                        toggleButtons.forEach(btn => {
+                            btn.classList.remove('disabled');
+                        });
+                    } 
+                    // Если кнопка выключена и нет других включенных - включаем её
+                    else if (this.classList.contains('off') && !document.querySelector('.toggleBtn.on')) {
+                        this.classList.remove('off');
+                        this.classList.add('on');
+                        this.textContent = 'Включено';
+                        activeScheme = schemeTitle;
+                        
+                        // Блокируем все остальные кнопки
+                        toggleButtons.forEach(btn => {
+                            if (btn !== this) {
+                                btn.classList.add('disabled');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Обработка кнопок "Показать схему"
+            const showSchemeButtons = document.querySelectorAll('.show-scheme-btn');
+            const schemeImages = {
+                'КСК-500': 'images/ksk500.jpg',
+                'КСК-400': 'images/ksk400.jpg',
+                'ПГД-200': 'images/pgd200.jpg'
+            };
+
+            showSchemeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const schemeTitle = this.parentElement.querySelector('h2').textContent;
+                    const imagePath = schemeImages[schemeTitle];
+                    
+                    // Проверяем, есть ли изображение для этой схемы
+                    if (imagePath) {
+                        // Создаем модальное окно для показа изображения
+                        showImageModal(imagePath, schemeTitle);
+                    } else {
+                        alert('Изображение схемы не найдено!');
+                    }
+                });
+            });
+
+            // Функция для отображения изображения в модальном окне
+            function showImageModal(imageSrc, title) {
+                // Создаем элементы модального окна
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                modal.style.zIndex = '1000';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                
+                // Создаем контент модального окна
+                const modalContent = document.createElement('div');
+                modalContent.style.position = 'relative';
+                modalContent.style.backgroundColor = '#fff';
+                modalContent.style.padding = '20px';
+                modalContent.style.borderRadius = '10px';
+                modalContent.style.maxWidth = '90%';
+                modalContent.style.maxHeight = '90%';
+                modalContent.style.overflow = 'auto';
+                
+                // Создаем кнопку закрытия
+                const closeBtn = document.createElement('span');
+                closeBtn.innerHTML = '&times;';
+                closeBtn.style.position = 'absolute';
+                closeBtn.style.top = '10px';
+                closeBtn.style.right = '15px';
+                closeBtn.style.fontSize = '28px';
+                closeBtn.style.fontWeight = 'bold';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.onclick = function() {
+                    document.body.removeChild(modal);
+                };
+                
+                // Создаем заголовок
+                const titleElement = document.createElement('h2');
+                titleElement.textContent = title;
+                titleElement.style.marginTop = '0';
+                
+                // Создаем изображение
+                const image = document.createElement('img');
+                image.src = imageSrc;
+                image.style.maxWidth = '100%';
+                image.style.height = 'auto';
+                image.alt = 'Схема ' + title;
+                image.onerror = function() {
+                    image.src = 'images/no-image.jpg'; // Запасное изображение
+                    image.alt = 'Изображение не загружено';
+                };
+                
+                // Собираем модальное окно
+                modalContent.appendChild(closeBtn);
+                modalContent.appendChild(titleElement);
+                modalContent.appendChild(image);
+                modal.appendChild(modalContent);
+                
+                // Добавляем модальное окно на страницу
+                document.body.appendChild(modal);
+                
+                // Закрытие по клику вне изображения
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                };
+            }
+
+            let currentConnection = null;
+            let connectedScheme = null;
+            let connectedKIP = null;
+		
+            // Выносим функцию updateConnection в глобальную область видимости
+	    function updateConnection() {
+            if (!connectedScheme || !currentConnection) return;
+    
+                const kipBlock = document.querySelector('.red-block.active-block');
+    	    if (!kipBlock) return;
+
+       	        const schemeRect = connectedScheme.getBoundingClientRect();
+    	        const kipRect = kipBlock.getBoundingClientRect();
+    
+    	    // Учитываем скролл
+                const scrollY = window.scrollY || window.pageYOffset;
+    
+                const x1 = schemeRect.left + schemeRect.width / 2;
+                const y1 = schemeRect.top + scrollY + schemeRect.height / 2;
+                const x2 = kipRect.left + kipRect.width / 2;
+                const y2 = kipRect.top + scrollY + kipRect.height / 2;
+    
+                const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                currentConnection.style.width = `${length}px`;
+                currentConnection.style.left = `${x1}px`;
+                currentConnection.style.top = `${y1}px`;
+                currentConnection.style.transform = `rotate(${angle}deg)`;
+            }
+
+            // Обработка кнопок "Подключить к КИПу"
+            const connectButtons = document.querySelectorAll('.connect-btn');
+            const kipButtons = document.querySelectorAll('.measure-btn');
+
+            // Выносим обработчик скролла в глобальную область
+            let scrollTimeout;
+            function handleScrollWithDebounce() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    updateConnection();
+                }, 50);
+            }
+
+            connectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('connected')) {
+                        // Отключаем
+                        this.classList.remove('connected');
+                        this.textContent = 'Подключить КИП';
+                        if (currentConnection) {
+                            currentConnection.remove();
+                            currentConnection = null;
+                        }
+                        connectedScheme = null;
+                        connectedKIP = null;
+                        
+                        // Удаляем обработчик скролла
+                        window.removeEventListener('scroll', handleScrollWithDebounce);
+                    } else {
+                        // Запоминаем схему для подключения
+                        connectedScheme = this.parentElement;
+                        this.textContent = 'Выберите КИП';
+                    }
+                });
+            });
+
+            // Обработка выбора КИП
+            kipButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    if (connectedScheme) {
+                        // Удаляем предыдущее подключение, если было
+                        if (currentConnection) {
+                            currentConnection.remove();
+                            window.removeEventListener('scroll', handleScrollWithDebounce);
+                        }
+            
+                        // Создаем провод подключения
+                        const kipBlock = this.parentElement;
+                        currentConnection = document.createElement('div');
+                        currentConnection.className = 'connection-wire';
+                        document.body.appendChild(currentConnection);
+            
+                        // Добавляем обработчик скролла
+                        window.addEventListener('scroll', handleScrollWithDebounce);
+            
+                        // Первоначальная отрисовка
+                        updateConnection();
+            
+                        // Завершаем подключение
+                        const connectBtn = connectedScheme.querySelector('.connect-btn');
+                        connectBtn.classList.add('connected');
+                        connectBtn.textContent = 'Отключить от КИП ' + (index + 1);
+                        connectedKIP = index + 1;
+                        connectedScheme = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

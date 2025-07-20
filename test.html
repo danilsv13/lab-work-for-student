@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест "Измерения при защите кабеля от коррозии"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin-bottom: 5px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .correct {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест по теме: "Измерения при защите кабеля от коррозии"</h1>
+    <div id="quiz-container"></div>
+    <button id="submit-btn">Проверить ответы</button>
+    <a href="Лабораторная работа.html" class="back-button">Вернуться на главную</a>
+    <div id="result" class="result" style="display: none;"></div>
+
+    <script>
+        // Пул из 25 вопросов
+        const questionPool = [
+            // Одиночные вопросы (radio)
+            {
+                question: "Что такое коррозия кабеля?",
+                options: [
+                    "Разрушение металлических элементов под воздействием внешней среды",
+                    "Перегрев кабеля из-за высокого напряжения",
+                    "Механическое повреждение из-за вибрации"
+                ],
+                correctAnswers: [0],
+                type: "radio"
+            },
+            {
+                question: "Какой вид коррозии вызывается блуждающими токами?",
+                options: [
+                    "Почвенная",
+                    "Электрическая",
+                    "Межкристаллитная"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой металл оболочки кабеля наиболее подвержен коррозии в щелочных грунтах?",
+                options: [
+                    "Свинец",
+                    "Сталь",
+                    "Алюминий"
+                ],
+                correctAnswers: [0],
+                type: "radio"
+            },
+            {
+                question: "Какой метод защиты от коррозии использует внешний источник тока?",
+                options: [
+                    "Протекторная защита",
+                    "Катодная защита",
+                    "Электрический дренаж"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Что является главным признаком коррозии подземных кабелей?",
+                options: [
+                    "Повышенное сопротивление изоляции",
+                    "Появление пятен, трещин на оболочке",
+                    "Увеличение ёмкости жил"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой фактор ускоряет коррозию металлических оболочек?",
+                options: [
+                    "Низкая влажность грунта",
+                    "Высокое удельное сопротивление грунта",
+                    "Наличие блуждающих токов"
+                ],
+                correctAnswers: [2],
+                type: "radio"
+            },
+            {
+                question: "Какой элемент входит в состав протекторной защиты?",
+                options: [
+                    "Германиевый диод",
+                    "Магниевый сплав",
+                    "Платинированный титан"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой метод защиты применяется против межкристаллитной коррозии?",
+                options: [
+                    "Подвеска кабеля на пружинных рессорах",
+                    "Установка катодной станции",
+                    "Использование электрического дренажа"
+                ],
+                correctAnswers: [0],
+                type: "radio"
+            },
+            {
+                question: "Какой параметр измеряют для контроля эффективности катодной защиты?",
+                options: [
+                    "Сопротивление изоляции",
+                    "Потенциал оболочки относительно земли",
+                    "Ёмкость между жилами"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой прибор используется для измерения потенциала оболочки кабеля?",
+                options: [
+                    "Амперметр",
+                    "Омметр",
+                    "Вольтметр",
+                    "Мегаомметр"
+                ],
+                correctAnswers: [2],
+                type: "radio"
+            },
+            {
+                question: "Как называется защита, использующая разность потенциалов металлов без внешнего источника тока?",
+                options: [
+                    "Катодная защита",
+                    "Электрический дренаж",
+                    "Протекторная защита",
+                    "Изолирующая муфта"
+                ],
+                correctAnswers: [2],
+                type: "radio"
+            },
+            {
+                question: "Какой тип дренажа применяется в зонах с переменным направлением блуждающих токов?",
+                options: [
+                    "Резистивный дренаж",
+                    "Поляризованный германиевый дренаж (ПГД)",
+                    "Гальванический дренаж",
+                    "Импульсный дренаж"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой компонент грунта ускоряет коррозию алюминиевых оболочек?",
+                options: [
+                    "Песок",
+                    "Щелочи и кислоты",
+                    "Глина",
+                    "Кварц"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Как называется зона, где блуждающие токи втекают в кабель?",
+                options: [
+                    "Анодная зона",
+                    "Катодная зона",
+                    "Нейтральная зона",
+                    "Переходная зона"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой метод защиты применяется вблизи электрифицированных железных дорог?",
+                options: [
+                    "Протекторная защита",
+                    "Электрический дренаж",
+                    "Полимерное покрытие",
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Какой параметр грунта наиболее важен для оценки коррозионной опасности?",
+                options: [
+                    "Внешний вид",
+                    "Удельное сопротивление",
+                    "Температура",
+                    "Плотность"
+                ],
+                correctAnswers: [1],
+                type: "radio"
+            },
+            {
+                question: "Как называется процесс разрушения металла по границам кристаллов?",
+                options: [
+                    "Электрокоррозия",
+                    "Точечная коррозия",
+                    "Межкристаллитная коррозия",
+                    "Равномерная коррозия"
+                ],
+                correctAnswers: [2],
+                type: "radio"
+            },
+            {
+                question: "Какой элемент в электрическом дренаже предотвращает обратный ток?",
+                options: [
+                    "Резистор",
+                    "Конденсатор",
+                    "Германиевый диод",
+                    "Катушка индуктивности"
+                ],
+                correctAnswers: [2],
+                type: "radio"
+            },
+
+            // Вопросы с множественным выбором (checkbox)
+            {
+                question: "Какие виды коррозии бывают у кабелей? (Несколько вариантов ответа)",
+                options: [
+                    "Почвенная",
+                    "Электрическая",
+                    "Термическая",
+                    "Межкристаллитная"
+                ],
+                correctAnswers: [0, 1, 3],
+                type: "checkbox"
+            },
+            {
+                question: "Какие факторы ускоряют коррозию? (Несколько вариантов ответа)",
+                options: [
+                    "Высокая влажность грунта",
+                    "Низкая температура",
+                    "Наличие солей в грунте",
+                    "Блуждающие токи"
+                ],
+                correctAnswers: [0, 2, 3],
+                type: "checkbox"
+            },
+            {
+                question: "Какие методы относятся к пассивной защите? (Несколько вариантов ответа)",
+                options: [
+                    "Катодная защита",
+                    "Полиэтиленовые шланги",
+                    "Изолирующие муфты",
+                    "Электрический дренаж"
+                ],
+                correctAnswers: [1, 2],
+                type: "checkbox"
+            },
+            {
+                question: "Какие металлы используются в протекторной защите? (Несколько вариантов ответа)",
+                options: [
+                    "Медь",
+                    "Магний",
+                    "Алюминий",
+                    "Платина"
+                ],
+                correctAnswers: [1, 2],
+                type: "checkbox"
+            },
+            {
+                question: "Какие зоны образуются при электрической коррозии? (Несколько вариантов ответа)",
+                options: [
+                    "Анодная",
+                    "Катодная",
+                    "Нейтральная",
+                    "Знакопеременная"
+                ],
+                correctAnswers: [0, 1, 3],
+                type: "checkbox"
+            },
+            {
+                question: "Какие методы применяются для защиты от межкристаллитной коррозии? (Несколько вариантов ответа)",
+                options: [
+                    "Устройство подушки из песка или мягкого грунта на дне траншеи",
+                    "Установка протекторов",
+                    "Подвеска на пружинных рессорах",
+                    "Применение электрического дренажа"
+                ],
+                correctAnswers: [0, 2],
+                type: "checkbox"
+            },
+            {
+                question: "Какие последствия вызывает коррозия кабеля? (Выберите 3)",
+                options: [
+                    "Снижение механической прочности",
+                    "Увеличение переходных сопротивлений",
+                    "Уменьшение скорости передачи данных",
+                    "Разрушение изоляции"
+                ],
+                correctAnswers: [0, 1, 3],
+                type: "checkbox"
+            }
+        ];
+
+
+        // Функция для случайного выбора 15 вопросов из пула
+        function getRandomQuestions(pool, count) {
+            const shuffled = [...pool].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Выбираем 15 случайных вопросов
+        const selectedQuestions = getRandomQuestions(questionPool, 15);
+        const quizContainer = document.getElementById('quiz-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultDiv = document.getElementById('result');
+
+        // Отображаем вопросы
+        selectedQuestions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            questionDiv.dataset.questionIndex = index;
+            
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = `${index + 1}. ${q.question}`;
+            questionDiv.appendChild(questionText);
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            
+            q.options.forEach((option, optionIndex) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                const input = document.createElement('input');
+                input.type = q.type;
+                input.name = `question-${index}`;
+                input.value = optionIndex;
+                input.id = `question-${index}-option-${optionIndex}`;
+                
+                const label = document.createElement('label');
+                label.htmlFor = `question-${index}-option-${optionIndex}`;
+                label.textContent = option;
+                
+                optionDiv.appendChild(input);
+                optionDiv.appendChild(label);
+                optionsDiv.appendChild(optionDiv);
+            });
+            
+            questionDiv.appendChild(optionsDiv);
+            quizContainer.appendChild(questionDiv);
+        });
+
+        // Обработчик нажатия кнопки проверки
+        submitBtn.addEventListener('click', () => {
+            let score = 0;
+            
+            selectedQuestions.forEach((q, index) => {
+                const questionDiv = document.querySelector(`.question[data-question-index="${index}"]`);
+                const selectedOptions = Array.from(
+                    document.querySelectorAll(`input[name="question-${index}"]:checked`)
+                ).map(input => parseInt(input.value));
+                
+                // Проверяем, совпадают ли выбранные ответы с правильными
+                const isCorrect = 
+                    selectedOptions.length === q.correctAnswers.length &&
+                    selectedOptions.every(option => q.correctAnswers.includes(option));
+                
+                if (isCorrect) {
+                    score++;
+                    questionDiv.classList.add('correct');
+                } else {
+                    questionDiv.classList.add('incorrect');
+                }
+            });
+            
+            // Показываем результат
+            const percentage = Math.round((score / selectedQuestions.length) * 100);
+            resultDiv.textContent = `Ваш результат: ${score} из ${selectedQuestions.length} (${percentage}%)`;
+            resultDiv.style.display = 'block';
+            
+            // Прокручиваем к результату
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

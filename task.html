@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание</title>
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .image-caption {
+            font-style: italic;	
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Инструкция по выполнению практической работы</h1>
+        
+        <h2>Подготовка к работе</h2>
+        <p>Изучите теоретический материал в разделе "Теория".
+	<br>Откройте раздел "Практика".
+	
+
+        <h2>Изучение схем защиты</h2>
+        <p>На верхней панели расположены блоки: КСК-500, КСК-400, ПГД-200
+	<br>Нажмите кнопку "Показать схему" на каждом блоке, чтобы ознакомиться с принципом работы устройств.</p>
+	
+	<h2>Проведение измерений</h2>
+	<h3>1. Измерения до защиты</h3>
+	
+        <p>Подключите мультиметр к каждому КИПу (1–10):
+	<ul>
+            <li>Нажмите кнопку "КИП X" на красном столбике — появится провод к мультиметру.</li>
+            <li>Нажмите "Измерить" на мультиметре.</li>
+            <li>Запишите значение в Таблицу 1 (раздел "Отчет"), строка "До защиты".</li>
+        </ul> </p>
+
+
+	<div class="image-container">
+            <img src="images/inst1.jpg">
+        </div>
+
+	<h3>2. Измерения с защитой</h3>
+	
+        <p>Для каждой схемы (КСК-500, КСК-400, ПГД-200):
+	<br>1. Включите схему:
+	<ul>
+            <li>Нажмите кнопку "Выключено" на блоке (станет "Включено").</li>
+          
+        </ul> 
+	<br1>2. Подключите схему к правильному КИПу:
+	<ul>
+            <li>Нажмите "Подключить КИП" на блоке схемы.</li>
+		<li>Выберите правильный КИП (Подсказка: при выборе правильного КИПа, график полученных значений будет иметь схожий вид с графиком из раздела "Теория").</li>   
+        </ul>
+	<br>3.При подключенной схеме измерьте значение каждого КИПа (1–10) и запишите данные в Таблицу 1 в соответствующие строки. </p>
+	
+	<div class="image-container">
+            <img src="images/inst2.jpg">
+            <div class="image-caption">Подключаем схему КСК-500 к КИПУ 3</div>
+        </div>
+
+	<div class="image-container">
+            <img src="images/inst3.jpg">
+            <div class="image-caption">Значения КИП 1, КИП 2, КИП 3...КИП 10  записываем в таблицу 1</div>
+        </div>
+	<h3>Важно!</h3>
+	
+        <p>Для корректных результатов подключите схемы к правильному КИПу.
+	<br>Если мультиметр показывает "Err", проверьте подключение провода к КИПу.</p>
+
+	
+	<h2>Построение графика</h2>
+        <p>Перейдите в раздел "Отчет". На основе данных Таблицы 1 постройте график.</p>
+
+	<h2>Прохождение теста</h2>
+        <p>Откройте раздел "Тест". Ответьте на вопросы, используя полученные данные.</p>
+
+	
+        <a href="Лабораторная работа.html" class="back-button">Вернуться на главную</a>
+    </div>
+</body>
+</html>
